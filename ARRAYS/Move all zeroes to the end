@@ -1,0 +1,15 @@
+class Solution {
+    public void moveZeroes(int[] nums) {
+     //As we needto do in place operation and also we need to maintain order therefore we will use two pointer approach
+     // one pointer will be used to iterate over the array and other pointer will track the position of non zero element we simply need to swap non zero with zero.
+     int j = 0;
+     for(int i=0;i<nums.length;i++){
+        if(nums[i] != 0){
+            int temp = nums[i];
+            nums[i]=nums[j];
+            nums[j] = temp;
+            j++;
+        }
+     }
+    } 
+}
