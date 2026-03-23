@@ -1,0 +1,40 @@
+class Solution {
+    public int trap(int[] height) {
+        //two pointers approach
+        int water = 0;
+        int left = 0 , right = height.length - 1;
+        int leftMax = 0 , rightMax = 0;
+        while(left<right){
+            if(height[left] < height[right])//thus means you got you min at left
+            {
+             if(height[left] >= leftMax){
+                leftMax = height[left];
+             }else {
+                    water += leftMax - height[left];
+                }
+             left++;
+            }else{
+                if(height[right] >= rightMax){
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+                right--;
+            }
+        }
+        return water;
+     }
+    }
+    /*
+height = [0,1,0,2,1,0,1,3,2,1,2,1]
+water will always be trapped between gaps so we first need to identify the gaps
+                                         3
+                 2                              2           2
+      1                 1         1                  1             1
+0          0                 0
+ 
+from the above graph we can clealy see that water can only be trapped in the vallies like abover we have three vallies and the max height of the water equivalent to height of lower vally peak.
+So actually we can say that water[i] = min(leftHeightMax , rightHeightMax)  - current height.
+
+
+    */
