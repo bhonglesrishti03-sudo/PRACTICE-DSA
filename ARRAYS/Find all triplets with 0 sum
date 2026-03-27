@@ -1,0 +1,108 @@
+class Solution {
+    public List<List<Integer>> threeSum(int[]arr) {
+    List<List<Integer>> list  = new ArrayList<>();
+    int n = arr.length;
+    Arrays.sort(arr);
+    for(int i=0; i<n-2; i++){
+
+        if(i > 0 && arr[i] == arr[i-1])continue;
+
+        int left = i+1, right = n-1;
+
+        while(left < right){
+            int sum = arr[i] + arr[left] + arr[right];
+
+            if(sum == 0){
+                list.add(Arrays.asList(arr[i],arr[left],arr[right]));
+
+                while(left < right && arr[left] == arr[left+1])left++;
+                while(left < right && arr[right] == arr[right-1])right--;
+
+                left++;
+                right--;
+            }
+           else if(sum < 0){
+                left++;
+            }else{
+                right--;
+            }
+        }
+    }
+    return list;
+    }
+}
+/*
+We can make use of two pointers for this problem but like in our previous approach we made use of a set to avoid dupliactes and to categorize efficiently in a set we need to sort the array this will avoid adding same types of numbers like for a set[0,-1,1]and [1,-1,0] are different but on sorting we know both are same hence we need to sort which will take a complexity of approximately O(N^2).
+1) Sort the array.
+[-4,-1,-1,0,1,2]
+2) Once the array is sorted we need to look for triplets.
+So to find we need a range that is from 0 till n - 2. Why n - 2 because the sum will be a sum of nums[left] + nums[right] + nums[i] so if nums[i] will be at n - 1 it will give index out of bounds exception so range from 0 till n-2
+int left = i+1 , right = n - 1;
+3) Now comes searching within the range so lets start searching
+nums1[1] + nums1[5] + nums1[0] = -4 -1 + 2 = -3 so here sum is negative means we need bigger elements so move right.
+
+i = 0 left = 2 right = 5
+sum = -4 -1 + 2 = -3 again left++
+
+i = 0 left = 3 right = 5
+sum = -4 + 0 + 2 = -2 again left++
+
+i = 0 left = 4 right = 5
+sum = -4 + 1 + 2 = -1 again left ++
+
+here on this check the loop will break
+
+now i = 1 left = 2 right = 5
+sum = -1 - 1 + 2 = 0 now we get sum == 0 so we will add it in our arraylist.
+here we can move normally as we do left++ and right--
+
+i = 1 left = 3 right = 4
+sum = -1 + 0 + 1 = 0 again we add this
+
+i = 1 left = 4 right =4
+here loop breaks
+
+i = 2 left = 3  right = 5
+sum = 0 -1 + 2 = 1 we will move right right --
+
+i = 2 left = 3 right = 4
+sum = 0 -1 + 1 = 0 we got 0 but this is already added so to avoid such dupliacacy we need to add a condition 
+nums1[i] and nums1[i-1] = -1 they both are same so we know when duplicates can be created first decide position there can be i left and right 
+so like here nums1[i] and nums1[i-1] both are equal so they can create duplicates so just skip them 
+hence we can add that if(i > 0 && nums1[i] == nums1[i-1])continue;
+
+i = 2 left = 4 right = 4 here loop will break
+
+[-4,-1,-1,0,1,2]
+i = 3 left = 4 right = 5
+sum = 0 + 1 + 2 = 3 sum > 0 move right
+
+i = 3 left = 4 right = 4 loop breaks
+
+i = 4 left = 5  right = 5 loop breaks 
+
+at the end we got [[-1,-1,2],[-1,0,1]]
+
+Lets test another example to encounter every edge case possible
+nums = [0,1,1]
+i = 0 left = 1 right = 2
+sum = 2 
+
+i = 0 left = 1 right = 1 loop breaks
+
+i = 1 left = 2 right = 2 loop breaks
+
+here we didnt found any such triplet hence we need to return an empty array
+
+nums = [0,0,0] now here all are equal so yes duplicates exist at every position i left and right now how can we avoid left and right duplicates
+
+i = 0 left = 1 right = 2
+sum = 0 add
+
+i = 1 left = 2  right = 1 loop breaks we get the answer 
+while(left < right && nums[left] == nums[left+1]) left++;
+while(left < right && nums[right] == nums[right-1]) right--;
+
+
+
+*/
